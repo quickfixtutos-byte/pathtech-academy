@@ -6,6 +6,7 @@ import CoursesPage from './pages/CoursesPage';
 import AboutPage from './pages/AboutPage';
 import InstructorsPage from './pages/InstructorsPage';
 import ContactPage from './pages/ContactPage';
+import StudentDashboardPage from './pages/StudentDashboardPage';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -22,16 +23,20 @@ function App() {
         return <InstructorsPage />;
       case 'contact':
         return <ContactPage />;
+      case 'dashboard':
+        return <StudentDashboardPage />;
       default:
         return <HomePage onNavigate={setCurrentPage} />;
     }
   };
 
+  const isDashboard = currentPage === 'dashboard';
+
   return (
     <div className="min-h-screen bg-white">
-      <Header currentPage={currentPage} onNavigate={setCurrentPage} />
+      {!isDashboard && <Header currentPage={currentPage} onNavigate={setCurrentPage} />}
       <main>{renderPage()}</main>
-      <Footer onNavigate={setCurrentPage} />
+      {!isDashboard && <Footer onNavigate={setCurrentPage} />}
     </div>
   );
 }
