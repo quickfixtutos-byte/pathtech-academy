@@ -1,7 +1,9 @@
 import { BookOpen, Award, Clock } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function WelcomeSection() {
-  const studentName = 'Ahmed';
+  const { user } = useAuth();
+  const studentName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Student';
   const coursesEnrolled = 5;
   const coursesCompleted = 2;
   const certificatesEarned = 2;

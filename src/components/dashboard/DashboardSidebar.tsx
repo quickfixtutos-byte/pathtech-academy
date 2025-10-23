@@ -1,4 +1,5 @@
 import { Home, BookOpen, Award, FileText, User, Settings, LogOut, Menu, X } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
 
 type ViewType = 'dashboard' | 'courses' | 'certificates' | 'resources' | 'profile' | 'settings';
 
@@ -10,6 +11,8 @@ interface DashboardSidebarProps {
 }
 
 export default function DashboardSidebar({ currentView, onViewChange, isOpen, onToggle }: DashboardSidebarProps) {
+  const { signOut } = useAuth();
+
   const menuItems = [
     { id: 'dashboard' as ViewType, label: 'Dashboard', icon: Home },
     { id: 'courses' as ViewType, label: 'My Courses', icon: BookOpen },
@@ -19,8 +22,9 @@ export default function DashboardSidebar({ currentView, onViewChange, isOpen, on
     { id: 'settings' as ViewType, label: 'Settings', icon: Settings },
   ];
 
-  const handleLogout = () => {
-    console.log('Logout clicked');
+  const handleLogout = async () => {
+    await signOut();
+    window.location.href = '/';
   };
 
   return (
