@@ -2,16 +2,18 @@ import { useState } from 'react';
 import DashboardSidebar from '../components/dashboard/DashboardSidebar';
 import WelcomeSection from '../components/dashboard/WelcomeSection';
 import MyCoursesSection from '../components/dashboard/MyCoursesSection';
+import CourseDetailView from '../components/dashboard/CourseDetailView';
 import ProgressTracker from '../components/dashboard/ProgressTracker';
 import ResourcesSection from '../components/dashboard/ResourcesSection';
 import CertificatesSection from '../components/dashboard/CertificatesSection';
 import NotificationsSection from '../components/dashboard/NotificationsSection';
 
-type ViewType = 'dashboard' | 'courses' | 'certificates' | 'resources' | 'profile' | 'settings';
+type ViewType = 'dashboard' | 'courses' | 'certificates' | 'resources' | 'profile' | 'settings' | 'course-detail';
 
 export default function StudentDashboardPage() {
   const [currentView, setCurrentView] = useState<ViewType>('dashboard');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
 
   const renderView = () => {
     switch (currentView) {
@@ -20,12 +22,32 @@ export default function StudentDashboardPage() {
           <div className="space-y-8">
             <WelcomeSection />
             <ProgressTracker />
-            <MyCoursesSection />
+            <MyCoursesSection
+              onCourseSelect={(courseId) => {
+                setSelectedCourseId(courseId);
+                setCurrentView('course-detail');
+              }}
+            />
             <NotificationsSection />
           </div>
         );
       case 'courses':
-        return <MyCoursesSection showAll />;
+        return (
+          <MyCoursesSection
+            showAll
+            onCourseSelect={(courseId) => {
+              setSelectedCourseId(courseId);
+              setCurrentView('course-detail');
+            }}
+          />
+        );
+      case 'course-detail':
+        return selectedCourseId ? (
+          <CourseDetailView
+            courseId={selectedCourseId}
+            onBack={() => setCurrentView('courses')}
+          />
+        ) : null;
       case 'certificates':
         return <CertificatesSection />;
       case 'resources':

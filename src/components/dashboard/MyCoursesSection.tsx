@@ -15,9 +15,13 @@ interface Course {
 
 interface MyCoursesProps {
   showAll?: boolean;
+  onCourseSelect?: (courseId: string) => void;
 }
 
-export default function MyCoursesSection({ showAll = false }: MyCoursesProps) {
+export default function MyCoursesSection({
+  showAll = false,
+  onCourseSelect,
+}: MyCoursesProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
@@ -125,9 +129,10 @@ export default function MyCoursesSection({ showAll = false }: MyCoursesProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {displayedCourses.map((course) => (
-          <div
+          <button
             key={course.id}
-            className="group bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+            onClick={() => onCourseSelect?.(course.id)}
+            className="group w-full text-left bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
           >
             <div className="relative h-48 overflow-hidden">
               <img
@@ -184,7 +189,7 @@ export default function MyCoursesSection({ showAll = false }: MyCoursesProps) {
                 </button>
               </div>
             </div>
-          </div>
+          </button>
         ))}
       </div>
 
