@@ -183,10 +183,10 @@ export default function MyCoursesSection({
                   <Clock className="w-4 h-4 mr-1" />
                   {course.lastAccessed}
                 </div>
-                <button className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                <div className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg group-hover:bg-blue-700 transition-colors duration-200">
                   <Play className="w-4 h-4" />
                   <span className="font-medium">Continue</span>
-                </button>
+                </div>
               </div>
             </div>
           </button>
